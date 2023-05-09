@@ -18,7 +18,7 @@ export const FlatListMenuItem = ({ menuItem }: Props) => {
 			onPress={() => navigation.navigate(menuItem.component as never)}
 		>
 			<View style={styles.container}>
-				<Ionicons name={menuItem.icon} size={23} color='gray' />
+				<Ionicons name={menuItem.icon} size={23} color='#5856D6' />
 
 				<Text style={styles.itemText}>{menuItem.name}</Text>
 				<View
@@ -26,7 +26,7 @@ export const FlatListMenuItem = ({ menuItem }: Props) => {
 						flex: 1,
 					}}
 				/>
-				<Ionicons name='arrow-forward-outline' size={23} color='gray' />
+				<Ionicons name='arrow-forward-outline' size={23} color='#5856D6' />
 			</View>
 		</TouchableOpacity>
 	)
