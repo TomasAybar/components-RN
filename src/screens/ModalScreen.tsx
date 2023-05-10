@@ -47,7 +47,6 @@ export const ModalScreen = () => {
                     </View>
                 </View>
 
-
             </Modal>
         </View>
     )
