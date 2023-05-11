@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import {
     StyleSheet,
     Text,
@@ -15,6 +15,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useAnimation } from '../hooks/useAnimation';
+import { ThemeContext } from '../context/theme/ThemeContext';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
@@ -44,6 +45,8 @@ const items: Slide[] = [
 
 export const SlidesScreen = () => {
 
+    const { theme: { colors } } = useContext(ThemeContext)
+
     const [activeIndex, setActiveIndex] = useState(0);
     // const [isVisible, setIsVisible] = useState(false);
 
@@ -56,7 +59,7 @@ export const SlidesScreen = () => {
 
             <View style={{
                 flex: 1,
-                backgroundColor: '#fff',
+                backgroundColor: colors.background,
                 borderRadius: 5,
                 padding: 40,
                 justifyContent: 'center'
@@ -70,8 +73,8 @@ export const SlidesScreen = () => {
                     }}
                 />
 
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.subtitle}>{item.desc}</Text>
+                <Text style={{ ...styles.title, color: colors.primary }}>{item.title}</Text>
+                <Text style={{ ...styles.subtitle, color: colors.text }}>{item.desc}</Text>
 
             </View>
         )
@@ -119,7 +122,7 @@ export const SlidesScreen = () => {
                         width: 10,
                         height: 10,
                         borderRadius: 5,
-                        backgroundColor: '#5856d6'
+                        backgroundColor: colors.primary
                     }}
                 />
 
@@ -132,7 +135,7 @@ export const SlidesScreen = () => {
                     <TouchableOpacity
                         style={{
                             flexDirection: 'row',
-                            backgroundColor: '#5856d6',
+                            backgroundColor: colors.primary,
                             width: 140,
                             height: 50,
                             borderRadius: 10,
@@ -149,7 +152,7 @@ export const SlidesScreen = () => {
                     >
                         <Text style={{
                             fontSize: 25,
-                            color: '#fff'
+                            color: colors.card
                         }}
                         >
                             Entrar
@@ -158,7 +161,7 @@ export const SlidesScreen = () => {
                         <Ionicons
                             name="chevron-forward-outline"
                             size={30}
-                            color="#fff"
+                            color={colors.card}
                         />
 
                     </TouchableOpacity>

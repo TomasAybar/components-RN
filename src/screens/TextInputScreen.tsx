@@ -1,35 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { styles } from '../theme/appTheme';
 import { CustomSwtich } from '../components/CustomSwtich';
 import { useForm } from '../hooks/useForm';
+import { ThemeContext } from '../context/theme/ThemeContext';
 
 export const TextInputScreen = () => {
 
-    // const [form, setForm] = useState({
-    //     name: '',
-    //     email: '',
-    //     phone: '',
-    //     isSuscribed: false
-    // })
-
-    // const [state, setState] = useState({
-    //     isActive: false
-    // })
-
-    // const { isActive } = state
-
-    // const onChange = (value: string, field: string) => {
-
-    //     setForm({
-    //         ...form,
-    //         [field]: value // propiedad computada por eso va entre llaves
-    //     })
-
-    // }
-
-    // const [isSuscribed, setIsSuscribed] = useState(false)
+    const { theme: { colors, dividerColor } } = useContext(ThemeContext)
 
     const { form, onChange, isSuscribed } = useForm({
         name: '',
@@ -52,26 +31,30 @@ export const TextInputScreen = () => {
 
 
                         <TextInput
-                            style={stylesScreen.inputStyle}
+                            style={{ ...stylesScreen.inputStyle, borderColor: colors.border, color: colors.text }}
                             placeholder='Ingrese su nombre'
                             autoCorrect={false}
                             autoCapitalize='words'
                             onChangeText={(value) => onChange(value, 'name')}
+                            cursorColor={colors.text}
+                            placeholderTextColor={dividerColor}
                         />
                         <TextInput
-                            style={stylesScreen.inputStyle}
+                            // style={{ ...stylesScreen.inputStyle, color: colors.primary }}
+                            style={{ ...stylesScreen.inputStyle, borderColor: colors.border, color: colors.text }}
                             placeholder='Ingrese su email'
                             autoCorrect={false}
                             autoCapitalize='none'
                             onChangeText={(value) => onChange(value, 'email')}
                             keyboardType='email-address'
                             keyboardAppearance='dark' // SOLO FUNCIONA EN IOS
-
+                            cursorColor={colors.text}
+                            placeholderTextColor={dividerColor}
                         />
 
                         {/* Ejemplo */}
                         <View style={stylesScreen.switchRow}>
-                            <Text style={stylesScreen.switchText}>Suscribirme</Text>
+                            <Text style={{ ...stylesScreen.switchText, color: colors.text }}>Suscribirme</Text>
                             <CustomSwtich isOn={isSuscribed} onChange={(value) => onChange(value, 'isSuscribed')} />
                         </View>
 
@@ -80,10 +63,13 @@ export const TextInputScreen = () => {
                         <HeaderTitle title={JSON.stringify(form, null, 3)} />
 
                         <TextInput
-                            style={stylesScreen.inputStyle}
+                            // style={stylesScreen.inputStyle}
+                            style={{ ...stylesScreen.inputStyle, borderColor: colors.border, color: colors.text }}
                             placeholder='Ingrese su telefono'
                             onChangeText={(value) => onChange(value, 'phone')}
                             keyboardType='phone-pad'
+                            cursorColor={colors.text}
+                            placeholderTextColor={dividerColor}
                         />
 
                         <View style={{ height: 100 }} />

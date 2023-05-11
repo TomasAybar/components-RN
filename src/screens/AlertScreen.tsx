@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import promptANDROID from 'react-native-prompt-android';
 import { View, Button, Alert } from 'react-native';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { styles } from '../theme/appTheme';
+import { ThemeContext } from '../context/theme/ThemeContext';
 
 export const AlertScreen = () => {
+
+    const { theme: { colors } } = useContext(ThemeContext)
 
     const showAlert = () => {
         Alert.alert(
@@ -65,11 +68,11 @@ export const AlertScreen = () => {
         <View style={styles.globalMargin}>
             <HeaderTitle title='Alertas' />
 
-            <Button title='Mostrar alerta' onPress={showAlert} />
+            <Button title='Mostrar alerta' onPress={showAlert} color={colors.primary} />
             <View style={{ height: 10 }} />
-            <Button title='Mostrar prompt IOS' onPress={showPromptIOS} />
+            <Button title='Mostrar prompt IOS' onPress={showPromptIOS} color={colors.primary} />
             <View style={{ height: 10 }} />
-            <Button title='Mostrar prompt LIB' onPress={showPrompt} />
+            <Button title='Mostrar prompt LIB' onPress={showPrompt} color={colors.primary} />
         </View>
     )
 }

@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 import { HeaderTitle } from '../components/HeaderTitle';
 import { FadeInImage } from '../components/FadeInImage';
+import { ThemeContext } from '../context/theme/ThemeContext';
 
 // https://reactnative.dev/docs/flatlist
 
 export const InfiniteScrollScreen = () => {
+
+    const { theme: { colors } } = useContext(ThemeContext)
 
     const [numbers, setNumbers] = useState([0, 1, 2, 3, 4, 5])
 
@@ -56,7 +59,7 @@ export const InfiniteScrollScreen = () => {
 
                 ListFooterComponent={() => (
                     <View style={{ height: 70, justifyContent: 'center' }}>
-                        <ActivityIndicator size={25} color={'#5856D6'} />
+                        <ActivityIndicator size={25} color={colors.primary} />
                     </View>
                 )}
             />
