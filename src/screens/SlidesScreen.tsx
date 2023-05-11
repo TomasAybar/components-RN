@@ -1,12 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, View, ImageSourcePropType, SafeAreaView, Dimensions } from 'react-native';
-import { HeaderTitle } from '../components/HeaderTitle';
-import { styles } from '../theme/appTheme';
-import Carousel from 'react-native-snap-carousel';
-import { Image } from 'react-native';
+import { useRef, useState } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    ImageSourcePropType,
+    SafeAreaView,
+    Dimensions,
+    Image,
+    TouchableOpacity,
+    Animated
+} from 'react-native';
+
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useAnimation } from '../hooks/useAnimation';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
-
 
 interface Slide {
     title: string;
@@ -34,6 +44,13 @@ const items: Slide[] = [
 
 export const SlidesScreen = () => {
 
+    const [activeIndex, setActiveIndex] = useState(0);
+    // const [isVisible, setIsVisible] = useState(false);
+
+    const isVisible = useRef(false);
+
+    const { fadeIn, opacity } = useAnimation();
+
     const renderItem = (item: Slide) => {
         return (
 
@@ -53,10 +70,15 @@ export const SlidesScreen = () => {
                     }}
                 />
 
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.subtitle}>{item.desc}</Text>
+
             </View>
         )
 
     }
+
+    const navigation = useNavigation();
 
     return (
         <SafeAreaView
@@ -67,8 +89,95 @@ export const SlidesScreen = () => {
                 renderItem={({ item }: any) => renderItem(item)}
                 sliderWidth={screenWidth}
                 itemWidth={screenWidth}
+                onSnapToItem={(index) => {
+
+                    setActiveIndex(index); // extraigo el index de la vista del carousel para usarlo en la paginacion
+
+                    if (index === items.length - 1) {
+
+                        // setIsVisible(true);
+                        isVisible.current = true;
+                        fadeIn();
+
+                    }
+                }}
             />
+
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 20,
+                    alignItems: 'center'
+                }}
+            >
+
+                <Pagination
+                    dotsLength={items.length}
+                    activeDotIndex={activeIndex} // este valor sale del resultado del index de la vista del carousel
+                    dotStyle={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: 5,
+                        backgroundColor: '#5856d6'
+                    }}
+                />
+
+                <Animated.View
+                    style={{
+                        opacity
+                    }}
+                >
+
+                    <TouchableOpacity
+                        style={{
+                            flexDirection: 'row',
+                            backgroundColor: '#5856d6',
+                            width: 140,
+                            height: 50,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                        activeOpacity={0.8}
+                        onPress={() => {
+
+                            if (isVisible.current) {
+                                navigation.navigate('HomeScreen' as never)
+                            }
+                        }}
+                    >
+                        <Text style={{
+                            fontSize: 25,
+                            color: '#fff'
+                        }}
+                        >
+                            Entrar
+                        </Text>
+
+                        <Ionicons
+                            name="chevron-forward-outline"
+                            size={30}
+                            color="#fff"
+                        />
+
+                    </TouchableOpacity>
+                </Animated.View>
+
+            </View>
+
         </SafeAreaView>
     )
 }
 
+
+const styles = StyleSheet.create({
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: '#5856d6'
+    },
+    subtitle: {
+        fontSize: 16
+    }
+});
