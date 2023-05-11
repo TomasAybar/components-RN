@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { MenuItem } from '../interfaces/appInterfaces'
 import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
+import { ThemeContext } from '../context/theme/ThemeContext'
 
 interface Props {
 	menuItem: MenuItem
 }
 
 export const FlatListMenuItem = ({ menuItem }: Props) => {
-	const navigation = useNavigation()
+	const navigation = useNavigation();
+
+	// const { colors } = useTheme(); // accedo a los colores del theme de reactnavigation
+	const { theme: { colors } } = useContext(ThemeContext)
 
 	return (
 		<TouchableOpacity
@@ -18,7 +22,7 @@ export const FlatListMenuItem = ({ menuItem }: Props) => {
 			onPress={() => navigation.navigate(menuItem.component as never)}
 		>
 			<View style={styles.container}>
-				<Ionicons name={menuItem.icon} size={23} color='#5856D6' />
+				<Ionicons name={menuItem.icon as never} size={23} color={colors.primary} />
 
 				<Text style={styles.itemText}>{menuItem.name}</Text>
 				<View
@@ -26,7 +30,7 @@ export const FlatListMenuItem = ({ menuItem }: Props) => {
 						flex: 1,
 					}}
 				/>
-				<Ionicons name='arrow-forward-outline' size={23} color='#5856D6' />
+				<Ionicons name='chevron-forward-outline' size={23} color={colors.primary} />
 			</View>
 		</TouchableOpacity>
 	)
